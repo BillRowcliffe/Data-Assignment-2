@@ -50,10 +50,10 @@ music.projections<-cbind(predict(music.rd.split1.lda,music),predict(music.rd.spl
 music.projections<-cbind(predict(music.rd.30.lda,music),predict(music.rd.50.lda,music),music.projections)
 music.projections<-cbind(predict(music.rd.70.lda,music),predict(music.rd.90.lda,music),music.projections)
 #Select scores, timbreav, and class
-music.data<-cbind(music.projections[,4], music.projections[,8], music.projections[,12], music.projections[,16], music.projections[,20], music.projections[,24], music.projections[,28], music.projections[,32], music.projections[,36], music.projections[,40], music.projections[,44], music.projections[,48], music.projections[,52], music.projections[,56], music.projections[,60],music.projections[,64], music.projections[,68], music.projections[,72], music[,1:12], music[91])
+music.data<-cbind(a=music.projections[,4], b=music.projections[,8], c=music.projections[,12], d=music.projections[,16], e=music.projections[,20], f=music.projections[,24], g=music.projections[,28], h=music.projections[,32], i=music.projections[,36], j=music.projections[,40], k=music.projections[,44], l=music.projections[,48], m=music.projections[,52], n=music.projections[,56], o=music.projections[,60], p=music.projections[,64], q=music.projections[,68], r=music.projections[,72], music[,1:12], music[91])
 music.data<-music.data[-1,]
 #randomForest
 write.table(music.data, file="music.data.csv")
-music.LDA.RF<-randomForest(Decade~., data=music.data, maxnodes=4, ntrees=500)
+music.LDA.RF<-randomForest(Decade~., data=music.data, maxnodes=6, ntree=1000)
 #End time record
 #})
