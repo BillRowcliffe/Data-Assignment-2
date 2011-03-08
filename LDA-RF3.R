@@ -27,10 +27,10 @@ music.70.lda<-lda(Decade=="1970s"~.,music.t,prior=c(.5,.5))
 music.90.lda<-lda(Decade=="1990s"~.,music.t,prior=c(.5,.5))
 music.split1.lda<-lda(Decade=="1990s"|Decade=="1970s"~.,music.t,prior=c(.5,.5))
 music.split2.lda<-lda(Decade=="1990s"|Decade=="1930s"~.,music.t,prior=c(.5,.5))
-music.scale.30.lda<-lda(Decade=="1930s"~.,music.scale.t,prior=c(.5,.5))
-music.scale.50.lda<-lda(Decade=="1950s"~.,music.scale.t,prior=c(.5,.5))
-music.scale.70.lda<-lda(Decade=="1970s"~.,music.scale.t,prior=c(.5,.5))
-music.scale.90.lda<-lda(Decade=="1990s"~.,music.scale.t,prior=c(.5,.5))
+music.scale.30.lda<-lda(Decade=="1930s"~.,music.t.scale,prior=c(.5,.5))
+music.scale.50.lda<-lda(Decade=="1950s"~.,music.t.scale,prior=c(.5,.5))
+music.scale.70.lda<-lda(Decade=="1970s"~.,music.t.scale,prior=c(.5,.5))
+music.scale.90.lda<-lda(Decade=="1990s"~.,music.t.scale,prior=c(.5,.5))
 music.scale.split1.lda<-lda(Decade=="1990s"|Decade=="1970s"~.,music.t.scale,prior=c(.5,.5))
 music.scale.split2.lda<-lda(Decade=="1990s"|Decade=="1930s"~.,music.t.scale,prior=c(.5,.5))
 music.rd.30.lda<-lda(Decade=="1930s"~.,music.t.rd,prior=c(.5,.5))
@@ -50,8 +50,10 @@ music.projections<-cbind(predict(music.rd.split1.lda,music),predict(music.rd.spl
 music.projections<-cbind(predict(music.rd.30.lda,music),predict(music.rd.50.lda,music),music.projections)
 music.projections<-cbind(predict(music.rd.70.lda,music),predict(music.rd.90.lda,music),music.projections)
 #Select scores, timbreav, and class
-music.data<-cbind(music.projections[,4],music.projections[,8],music.projections[,12],music.projections[,16],music.projections[,20],music.projections[,24],music.projections[,28],music.projections[,32],music.projections[,36],music.projections[,40],music.projections[,44],music.projections[,48],music.projections[,52],music.projections[,56],music.projections[,60],music.projections[,64],music.projections[,68],music.projections[,72],music[,1:12],music[91])
+music.data<-cbind(music.projections[,4], music.projections[,8], music.projections[,12], music.projections[,16], music.projections[,20], music.projections[,24], music.projections[,28], music.projections[,32], music.projections[,36], music.projections[,40], music.projections[,44], music.projections[,48], music.projections[,52], music.projections[,56], music.projections[,60],music.projections[,64], music.projections[,68], music.projections[,72], music[,1:12], music[91])
+music.data<-music.data[-1,]
 #randomForest
-music.LDA.RF<-randomForest(Decade~., data=music.data, maxnodes=4)
+write.table(music.data, file="music.data.csv")
+music.LDA.RF<-randomForest(Decade~., data=music.data, maxnodes=4, ntrees=500)
 #End time record
 #})
